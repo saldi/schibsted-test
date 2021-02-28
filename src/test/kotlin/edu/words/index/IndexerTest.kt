@@ -12,5 +12,20 @@ class IndexerTest {
         assertThat(files).hasSize(2)
     }
 
+    @Test
+    fun `word indexer simple test`() {
+        val wordIndexer = WordIndexer()
+        wordIndexer.index("cat", "testfilewithcat.txt")
+        wordIndexer.index("dog", "testfilewithdog.txt")
+        wordIndexer.index("duck", "testfilewithduck.txt")
+
+
+        assertThat(wordIndexer.findFiles("cat")).hasSize(1).contains("testfilewithcat.txt")
+        assertThat(wordIndexer.findFiles("dog")).hasSize(1).contains("testfilewithdog.txt")
+        assertThat(wordIndexer.findFiles("duck")).hasSize(1).contains("testfilewithduck.txt")
+
+
+    }
+
 
 }
