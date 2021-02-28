@@ -32,8 +32,16 @@ class Indexer {
         }
     }
 
-    fun findFiles(word: String): Set<String>? {
+    fun findFiles(word: String): Set<String> {
         return wordIndexer.findFiles(word)
+    }
+
+    fun findFiles(words: List<String>?): Set<Set<String>> {
+        val setOfFiles = HashSet<Set<String>>()
+        words?.forEach { word ->
+            setOfFiles.add(findFiles(word))
+        }
+        return setOfFiles
     }
 }
 
@@ -48,11 +56,11 @@ class WordIndexer {
         setOfFiles.add(fileName)
     }
 
-    fun findFiles(word: String): Set<String>? {
+    fun findFiles(word: String): Set<String> {
         val firstChar = word[0]
         if (wordIndex.containsKey(firstChar)) {
-            val words = wordIndex[firstChar]
-            return words?.getOrDefault(word, HashSet())
+            val words = wordIndex.getOrDefault(firstChar, HashMap())
+            return words.getOrDefault(word, HashSet())
         } else return HashSet()
     }
 

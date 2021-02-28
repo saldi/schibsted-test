@@ -21,7 +21,12 @@ class IndexerAppIT {
         every {
             testConsole.readLine()
         } returns "dog cat" andThen ":quit"
-        IndexerApp.from(testConsole).start()
+        IndexerApp.from(testConsole, DefaultCountScore).run("./src/test/resources/files")
+        verify {
+            testConsole.println("Indexed testfilewithcat.txt")
+            testConsole.println("Indexed testfilewithdog.txt")
+            testConsole.println("Indexed testfilewithduck.txt")
+        }
         verify(exactly = 2) {
             testConsole.print("search>")
         }
