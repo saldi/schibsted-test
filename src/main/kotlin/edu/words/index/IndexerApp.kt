@@ -80,8 +80,12 @@ class IndexerApp(
         val words = input?.split(" ")
         val foundedFiles = indexer.findFiles(words)
         val score = scoring.score(foundedFiles, words ?: listOf(), 10)
-        score.forEach { sc ->
-            console.println(sc.fileName + "   " + sc.score)
+        if (score.isEmpty()) {
+            console.println("no matches found")
+        } else {
+            score.forEach { sc ->
+                console.println(sc.fileName + " " + sc.score)
+            }
         }
     }
 

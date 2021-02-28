@@ -20,15 +20,22 @@ class IndexerAppIT {
     fun simpleLoopTest() {
         every {
             testConsole.readLine()
-        } returns "dog cat" andThen ":quit"
+        } returns "goose" andThen "dog cat" andThen ":quit"
         IndexerApp.from(testConsole, DefaultCountScore).run("./src/test/resources/files")
         verify {
             testConsole.println("Indexed testfilewithcat.txt")
             testConsole.println("Indexed testfilewithdog.txt")
             testConsole.println("Indexed testfilewithduck.txt")
         }
-        verify(exactly = 2) {
+        verify {
+            testConsole.println("no matches found")
+        }
+        verify(exactly = 3) {
             testConsole.print("search>")
+        }
+        verify{
+            testConsole.println("testfilewithdog.txt 50")
+            testConsole.println("testfilewithcat.txt 50")
         }
     }
 
