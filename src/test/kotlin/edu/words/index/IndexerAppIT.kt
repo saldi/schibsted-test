@@ -22,7 +22,7 @@ class IndexerAppIT {
             testConsole.readLine()
         } returns "dog cat" andThen ":quit"
         IndexerApp.from(testConsole).start()
-        verify(exactly = 2) {
+        verify(exactly = 3) {
             testConsole.print("search>")
         }
     }

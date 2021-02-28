@@ -2,6 +2,7 @@ package edu.words.index
 
 import java.io.File
 import java.io.Reader
+import java.io.StreamTokenizer
 import java.nio.file.Path
 
 fun File.isTextFile(): Boolean {
@@ -16,12 +17,24 @@ fun findTextFiles(path: Path): Array<File>? {
 
 
 class Indexer {
+    val wordIndexer = WordIndexer()
 
     fun index(input: Reader, fileName: String) {
-
-
+        input.use {
+            val streamTokenizer = StreamTokenizer(input)
+            streamTokenizer.eolIsSignificant(false)
+            var token: Int
+            while (streamTokenizer.nextToken().also { token = it } != StreamTokenizer.TT_EOF) {
+                if (token == StreamTokenizer.TT_WORD) {
+                    wordIndexer.index(streamTokenizer.sval, fileName)
+                }
+            }
+        }
     }
 
+    fun findFiles(word: String): Set<String>? {
+        return wordIndexer.findFiles(word)
+    }
 }
 
 class WordIndexer {

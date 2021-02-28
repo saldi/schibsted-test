@@ -27,5 +27,13 @@ class IndexerTest {
 
     }
 
-
+    @Test
+    fun `indexer simple test`() {
+        val indexer = Indexer()
+        findTextFiles(Paths.get("./src/test/resources/files"))
+            ?.forEach { file -> indexer.index(file.bufferedReader(), file.name) }
+        assertThat(indexer.findFiles("cat")).hasSize(1).contains("testfilewithcat.txt")
+        assertThat(indexer.findFiles("dog")).hasSize(1).contains("testfilewithdog.txt")
+        assertThat(indexer.findFiles("duck")).hasSize(1).contains("testfilewithduck.txt")
+    }
 }
