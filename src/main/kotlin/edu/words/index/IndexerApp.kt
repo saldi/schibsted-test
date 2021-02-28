@@ -40,6 +40,11 @@ class IndexerApp(private val console: Console) {
         }
     }
 
+    fun run(directory: String) {
+
+    }
+
+
     fun start() {
         var keepRunning = true
         while (keepRunning) {

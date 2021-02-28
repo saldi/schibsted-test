@@ -8,8 +8,8 @@ class IndexerTest {
 
     @Test
     fun `find files`() {
-        val files = findTextFiles(Paths.get("./src/test/resources/files"))
-        assertThat(files).hasSize(2)
+        val files = Paths.get("./src/test/resources/files").findTextFiles()
+        assertThat(files).hasSize(3)
     }
 
     @Test
@@ -30,7 +30,7 @@ class IndexerTest {
     @Test
     fun `indexer simple test`() {
         val indexer = Indexer()
-        findTextFiles(Paths.get("./src/test/resources/files"))
+        Paths.get("./src/test/resources/files").findTextFiles()
             ?.forEach { file -> indexer.index(file.bufferedReader(), file.name) }
         assertThat(indexer.findFiles("cat")).hasSize(1).contains("testfilewithcat.txt")
         assertThat(indexer.findFiles("dog")).hasSize(1).contains("testfilewithdog.txt")
